@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import ProductCard from "@/components/ProductCard";
 
 export default async function Home() {
   const featuredProducts = await prisma.product.findMany({ take: 3 });
@@ -33,20 +34,7 @@ export default async function Home() {
 
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {featuredProducts.map((product) => (
-            <Link
-              key={product.id}
-              href={`/products/${product.id}`}
-              className="group rounded-2xl border border-zinc-100 p-6 transition-colors hover:border-zinc-200 hover:bg-zinc-50"
-            >
-              <div className="aspect-square w-full overflow-hidden rounded-xl bg-zinc-100" />
-              <h3 className="mt-4 font-medium group-hover:underline">
-                {product.name}
-              </h3>
-              <p className="mt-1 text-sm text-zinc-500">{product.category}</p>
-              <p className="mt-2 font-semibold">
-                ${product.price.toFixed(2)}
-              </p>
-            </Link>
+            <ProductCard key={product.id} {...product} />
           ))}
         </div>
       </section>

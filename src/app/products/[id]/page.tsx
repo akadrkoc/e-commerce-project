@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import AddToCartButton from "@/components/AddToCartButton";
 
@@ -15,10 +16,17 @@ export default async function ProductDetailPage({ params }: Props) {
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
       <div className="grid gap-12 md:grid-cols-2">
-        {/* Image placeholder */}
-        <div className="aspect-square w-full rounded-2xl bg-zinc-100" />
+        <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-zinc-100">
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority
+          />
+        </div>
 
-        {/* Details */}
         <div className="flex flex-col justify-center">
           <p className="text-sm font-medium text-zinc-400">
             {product.category}

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import AddToCartButton from "@/components/AddToCartButton";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -30,9 +31,11 @@ export default async function ProductDetailPage({ params }: Props) {
             ${product.price.toFixed(2)}
           </p>
 
-          <button className="mt-8 w-full rounded-full bg-black py-3 text-sm font-medium text-white transition-colors hover:bg-zinc-800 md:w-auto md:px-12">
-            Add to Cart
-          </button>
+          <AddToCartButton
+            id={product.id}
+            name={product.name}
+            price={product.price}
+          />
         </div>
       </div>
     </section>

@@ -2,8 +2,18 @@
 
 @theme inline {
   --font-sans: var(--font-geist);
+  --color-background: #ffffff;
+  --color-foreground: #171717;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
   font-family: var(--font-sans), system-ui, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
 }

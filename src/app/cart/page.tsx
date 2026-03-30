@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 
 export default function CartPage() {
@@ -43,8 +44,15 @@ export default function CartPage() {
             className="rounded-2xl border border-zinc-100 p-5"
           >
             <div className="flex items-start gap-4">
-              {/* Image placeholder */}
-              <div className="h-20 w-20 shrink-0 rounded-xl bg-zinc-100" />
+              <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-zinc-100">
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  fill
+                  className="object-cover"
+                  sizes="80px"
+                />
+              </div>
 
               {/* Info */}
               <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">

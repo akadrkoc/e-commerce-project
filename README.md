@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Coffee Lab
+
+A modern coffee ecommerce website built with Next.js, Tailwind CSS, Prisma, and Stripe.
+
+## Tech Stack
+
+- **Framework:** Next.js (App Router)
+- **Styling:** Tailwind CSS
+- **Database:** PostgreSQL (Supabase)
+- **ORM:** Prisma
+- **Payments:** Stripe (test mode)
+- **Deployment:** Vercel
+
+## Features
+
+- Product listing and detail pages
+- Shopping cart (add, remove, update quantity)
+- Checkout with shipping form
+- Stripe test mode payments
+- Responsive, minimal UI
+- Loading states and skeleton screens
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/akadrkoc/e-commerce-project.git
+cd e-commerce-project
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Set up environment variables
+
+Copy `.env.example` to `.env` and fill in your values:
+
+```bash
+cp .env.example .env
+```
+
+You need:
+- **Supabase** project connection string (Session pooler)
+- **Stripe** test mode API keys
+
+### 4. Set up the database
+
+```bash
+npx prisma migrate deploy
+npx prisma generate
+npx tsx prisma/seed.ts
+```
+
+### 5. Run the dev server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Vercel
 
-## Learn More
+1. Push your code to GitHub
+2. Import the repo on [Vercel](https://vercel.com)
+3. Add environment variables in Vercel dashboard:
+   - `DATABASE_URL`
+   - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
+   - `STRIPE_SECRET_KEY`
+4. Deploy
 
-To learn more about Next.js, take a look at the following resources:
+### Database
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Use the **Session pooler** connection string from Supabase (port 5432) for migrations, and **Transaction pooler** (port 6543) for the app runtime if needed.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+  app/
+    page.tsx              # Homepage
+    products/
+      page.tsx            # Product listing
+      [id]/page.tsx       # Product detail
+      loading.tsx         # Skeleton loader
+    cart/page.tsx          # Shopping cart
+    checkout/
+      page.tsx            # Checkout + shipping form
+      success/page.tsx    # Order confirmation
+    api/checkout/route.ts # Stripe API route
+  components/
+    Navbar.tsx
+    Footer.tsx
+    ProductCard.tsx
+    AddToCartButton.tsx
+  context/
+    CartContext.tsx        # Cart state management
+  lib/
+    prisma.ts             # Prisma client
+    stripe.ts             # Stripe client
+prisma/
+  schema.prisma           # Database schema
+  seed.ts                 # Seed data
+```

@@ -11,8 +11,8 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Coffee Lab",
-  description: "Premium coffee, crafted for you.",
+  title: "Coffeein",
+  description: "Good coffee, no compromise.",
 };
 
 export default function RootLayout({

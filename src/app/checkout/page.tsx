@@ -141,7 +141,7 @@ export default function CheckoutPage() {
                   value={shipping.city}
                   onChange={(e) => updateField("city", e.target.value)}
                   className="mt-1 w-full rounded-lg border border-zinc-200 px-4 py-2.5 text-sm outline-none transition-colors focus:border-black"
-                  placeholder="Istanbul"
+                  placeholder="New York"
                 />
               </div>
               <div>
@@ -158,7 +158,7 @@ export default function CheckoutPage() {
                   value={shipping.postalCode}
                   onChange={(e) => updateField("postalCode", e.target.value)}
                   className="mt-1 w-full rounded-lg border border-zinc-200 px-4 py-2.5 text-sm outline-none transition-colors focus:border-black"
-                  placeholder="34000"
+                  placeholder="10001"
                 />
               </div>
             </div>
@@ -174,7 +174,7 @@ export default function CheckoutPage() {
                 value={shipping.country}
                 onChange={(e) => updateField("country", e.target.value)}
                 className="mt-1 w-full rounded-lg border border-zinc-200 px-4 py-2.5 text-sm outline-none transition-colors focus:border-black"
-                placeholder="Turkey"
+                placeholder="United States"
               />
             </div>
           </div>

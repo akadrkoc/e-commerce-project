@@ -43,6 +43,7 @@ export default async function ProductDetailPage({ params }: Props) {
             id={product.id}
             name={product.name}
             price={product.price}
+            image={product.image}
           />
         </div>
       </div>

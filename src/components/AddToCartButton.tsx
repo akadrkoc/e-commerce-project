@@ -7,14 +7,15 @@ interface Props {
   id: string;
   name: string;
   price: number;
+  image: string;
 }
 
-export default function AddToCartButton({ id, name, price }: Props) {
+export default function AddToCartButton({ id, name, price, image }: Props) {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
 
   function handleClick() {
-    addItem({ id, name, price });
+    addItem({ id, name, price, image });
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   }

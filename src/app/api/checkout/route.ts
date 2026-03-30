@@ -8,9 +8,21 @@ interface CartItem {
   quantity: number;
 }
 
+interface ShippingInfo {
+  email: string;
+  name: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
+
 export async function POST(request: Request) {
   try {
-    const { items } = (await request.json()) as { items: CartItem[] };
+    const { items, shipping } = (await request.json()) as {
+      items: CartItem[];
+      shipping: ShippingInfo;
+    };
 
     if (!items || items.length === 0) {
       return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
@@ -18,6 +30,7 @@ export async function POST(request: Request) {
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
+      customer_email: shipping.email,
       line_items: items.map((item) => ({
         price_data: {
           currency: "usd",
@@ -26,6 +39,13 @@ export async function POST(request: Request) {
         },
         quantity: item.quantity,
       })),
+      metadata: {
+        customerName: shipping.name,
+        address: shipping.address,
+        city: shipping.city,
+        postalCode: shipping.postalCode,
+        country: shipping.country,
+      },
       success_url: `${request.headers.get("origin")}/checkout/success`,
       cancel_url: `${request.headers.get("origin")}/cart`,
     });

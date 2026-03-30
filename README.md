@@ -1,6 +1,6 @@
-# Coffee Lab
+# Coffeein
 
-A modern coffee ecommerce website built with Next.js, Tailwind CSS, Prisma, and Stripe.
+A minimal coffee shop built with Next.js, Tailwind CSS, Prisma, and Stripe.
 
 ## Tech Stack
 

@@ -1,32 +1,41 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { stripe } from "@/lib/stripe";
 
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
+const cartItemSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1).max(200),
+  price: z.number().positive().max(10000),
+  quantity: z.number().int().positive().max(99),
+});
 
-interface ShippingInfo {
-  email: string;
-  name: string;
-  address: string;
-  city: string;
-  postalCode: string;
-  country: string;
-}
+const shippingSchema = z.object({
+  email: z.string().email(),
+  name: z.string().min(1).max(100),
+  address: z.string().min(1).max(300),
+  city: z.string().min(1).max(100),
+  postalCode: z.string().min(1).max(20),
+  country: z.string().min(1).max(100),
+});
+
+const checkoutSchema = z.object({
+  items: z.array(cartItemSchema).min(1).max(50),
+  shipping: shippingSchema,
+});
 
 export async function POST(request: Request) {
   try {
-    const { items, shipping } = (await request.json()) as {
-      items: CartItem[];
-      shipping: ShippingInfo;
-    };
+    const body = await request.json();
+    const result = checkoutSchema.safeParse(body);
 
-    if (!items || items.length === 0) {
-      return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
+    if (!result.success) {
+      return NextResponse.json(
+        { error: "Invalid request data" },
+        { status: 400 }
+      );
     }
+
+    const { items, shipping } = result.data;
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -51,8 +60,7 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ url: session.url });
-  } catch (error) {
-    console.error("Stripe error:", error);
+  } catch {
     return NextResponse.json(
       { error: "Failed to create checkout session" },
       { status: 500 }
